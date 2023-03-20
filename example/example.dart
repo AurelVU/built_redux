@@ -1,4 +1,3 @@
-import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
 
 part 'example.g.dart';
@@ -6,7 +5,7 @@ part 'example.g.dart';
 void main() {
 // Create a redux store holding the state of your app.
 // Its API contains three getters: stream, state, and actions.
-  final store = Store<Counter, CounterBuilder, CounterActions>(
+  final store = Store<Counter, CounterActions>(
     reducerBuilder.build(), // build returns a reducer function
     Counter(),
     CounterActions(),
@@ -28,38 +27,41 @@ void main() {
 // reducers
 abstract class CounterActions extends ReduxActions {
   ActionDispatcher<int> get increment;
+
   ActionDispatcher<int> get decrement;
 
   // factory to create on instance of the generated implementation of CounterActions
   CounterActions._();
+
   factory CounterActions() => _$CounterActions();
 }
 
 // This is a built value. It is an immutable model that implements the Built interface.
 // All of the state in your redux store is contained in a single built value model.
-abstract class Counter implements Built<Counter, CounterBuilder> {
+class Counter {
   /// [count] value of the counter
-  int get count;
+  int count;
 
   // Built value constructor. The factory is returning the default state
-  Counter._();
-  factory Counter() => _$Counter._(count: 0);
+  Counter({
+    this.count = 0,
+  });
 }
 
 // These are reducer functions. They have a (state, action, builder) => void signature.
 // They describes how an action transforms the state into the next state by applying changes to the builder supplied.
 // You are required to use the builder passed, calling state.rebuild will NOT update the state in your redux store.
-void increment(Counter state, Action<int> action, CounterBuilder builder) =>
-    builder.count = state.count + action.payload;
+void increment(Counter state, Action<int> action) =>
+    state.count = state.count + action.payload;
 
-void decrement(Counter state, Action<int> action, CounterBuilder builder) =>
-    builder.count = state.count - action.payload;
+void decrement(Counter state, Action<int> action) =>
+    state.count = state.count - action.payload;
 
 // This is a reducer builder. Use of ReducerBuilder is not required, however it
 // is strongly recommended as it gives you static type checking to make sure
 // the payload for action name provided is the same as the expected payload
 // for the action provided to your reducer. Calling .build() returns a reducer function
 // that can be passed to the store's constructor.
-final reducerBuilder = ReducerBuilder<Counter, CounterBuilder>()
+final reducerBuilder = ReducerBuilder<Counter>()
   ..add(CounterActionsNames.increment, increment)
   ..add(CounterActionsNames.decrement, decrement);

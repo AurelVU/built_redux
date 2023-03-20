@@ -7,15 +7,14 @@ import 'typedefs.dart';
 /// [MiddlewareApi] put in scope to your [Middleware] function by redux.
 /// When using [MiddlewareBuilder] (recommended) [MiddlewareApi] is passed to your [MiddlewareHandler]
 class MiddlewareApi<
-    State extends Built<State, StateBuilder>,
-    StateBuilder extends Builder<State, StateBuilder>,
+    State,
     Actions extends ReduxActions> {
   final State Function() _state;
   final Actions Function() _actions;
 
   MiddlewareApi._(this._state, this._actions);
 
-  factory MiddlewareApi(Store<State, StateBuilder, Actions> _store) =>
+  factory MiddlewareApi(Store<State, Actions> _store) =>
       MiddlewareApi._(() => _store.state, () => _store.actions);
 
   /// [state] returns the current state
@@ -30,14 +29,13 @@ class MiddlewareApi<
 /// Each [MiddlewareHandler] added with add<T> must take a state of type State, an Action of type
 /// Action<T>, and a builder of type StateBuilder
 class MiddlewareBuilder<
-    State extends Built<State, StateBuilder>,
-    StateBuilder extends Builder<State, StateBuilder>,
+    State,
     Actions extends ReduxActions> {
   var _map =
-      Map<String, MiddlewareHandler<State, StateBuilder, Actions, dynamic>>();
+      Map<String, MiddlewareHandler<State, Actions, dynamic>>();
 
   void add<Payload>(ActionName<Payload> aMgr,
-      MiddlewareHandler<State, StateBuilder, Actions, Payload> handler) {
+      MiddlewareHandler<State, Actions, Payload> handler) {
     _map[aMgr.name] = (api, next, action) {
       handler(api, next, action as Action<Payload>);
     };
@@ -45,7 +43,7 @@ class MiddlewareBuilder<
 
   /// [combine] combines this MiddlewareBuilder with another MiddlewareBuilder
   /// for the same type
-  void combine(MiddlewareBuilder<State, StateBuilder, Actions> other) {
+  void combine(MiddlewareBuilder<State, Actions> other) {
     _map.addAll(other._map);
   }
 
@@ -54,15 +52,14 @@ class MiddlewareBuilder<
           NestedState extends Built<NestedState, NestedStateBuilder>,
           NestedStateBuilder extends Builder<NestedState, NestedStateBuilder>,
           NestedActions extends ReduxActions>(
-      NestedMiddlewareBuilder<State, StateBuilder, Actions, NestedState,
-              NestedStateBuilder, NestedActions>
+      NestedMiddlewareBuilder<State, Actions, NestedState, NestedActions>
           other) {
     _map.addAll(other._map);
   }
 
   /// [build] returns a [Middleware] function that handles all actions added with [add]
-  Middleware<State, StateBuilder, Actions> build() =>
-      (MiddlewareApi<State, StateBuilder, Actions> api) =>
+  Middleware<State, Actions> build() =>
+      (MiddlewareApi<State, Actions> api) =>
           (ActionHandler next) => (Action<dynamic> action) {
                 var handler = _map[action.name];
                 if (handler != null) {
@@ -75,14 +72,12 @@ class MiddlewareBuilder<
 }
 
 class NestedMiddlewareBuilder<
-    State extends Built<State, StateBuilder>,
-    StateBuilder extends Builder<State, StateBuilder>,
+    State,
     Actions extends ReduxActions,
-    NestedState extends Built<NestedState, NestedStateBuilder>,
-    NestedStateBuilder extends Builder<NestedState, NestedStateBuilder>,
+    NestedState,
     NestedActions extends ReduxActions> {
   final _map =
-      Map<String, MiddlewareHandler<State, StateBuilder, Actions, dynamic>>();
+      Map<String, MiddlewareHandler<State, Actions, dynamic>>();
 
   final NestedState Function(State) _stateMapper;
   final NestedActions Function(Actions) _actionsMapper;
@@ -91,7 +86,7 @@ class NestedMiddlewareBuilder<
 
   void add<Payload>(
       ActionName<Payload> aMgr,
-      MiddlewareHandler<NestedState, NestedStateBuilder, NestedActions, Payload>
+      MiddlewareHandler<NestedState, NestedActions, Payload>
           handler) {
     _map[aMgr.name] = (api, next, action) {
       handler(
@@ -106,10 +101,10 @@ class NestedMiddlewareBuilder<
   /// `NestedState`, `NestedStateBuilder`, `NestedActions` and combines it with
   /// this `NestedMiddlewareBuilder`.
   void combineMiddlewareBuilder(
-      MiddlewareBuilder<NestedState, NestedStateBuilder, NestedActions> other) {
+      MiddlewareBuilder<NestedState, NestedActions> other) {
     var adapted = other._map.map((name, handler) => MapEntry(
         name,
-        (MiddlewareApi<State, StateBuilder, Actions> api, ActionHandler next,
+        (MiddlewareApi<State, Actions> api, ActionHandler next,
                 Action action) =>
             handler(
                 MiddlewareApi._(() => _stateMapper(api.state),
@@ -124,9 +119,8 @@ class NestedMiddlewareBuilder<
 /// use with [MiddlewareBuilder]. If you are not using [MiddlewareBuilder] middleware must be
 /// declared as a [Middleware] function.
 typedef MiddlewareHandler<
-        State extends Built<State, StateBuilder>,
-        StateBuilder extends Builder<State, StateBuilder>,
+        State,
         Actions extends ReduxActions,
         Payload>
-    = void Function(MiddlewareApi<State, StateBuilder, Actions> api,
+    = void Function(MiddlewareApi<State, Actions> api,
         ActionHandler next, Action<Payload> action);
