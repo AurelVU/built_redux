@@ -112,20 +112,19 @@ typedef Mapper<State, NestedState> = NestedState Function(State state);
 class NestedReducerBuilder<State, NestedState> {
   final _map = Map<String, Reducer<State, dynamic>>();
   Mapper<State, NestedState> _stateMapper;
-  Mapper<NestedState, State> _otherStateMapper;
 
   NestedReducerBuilder(
     this._stateMapper,
-    this._otherStateMapper,
   );
 
   /// Registers [reducer] function to the given [actionName]
-  void add<Payload>(
-      ActionName<Payload> actionName, Reducer<NestedState, Payload> reducer) {
-    _map[actionName.name] = (state, action) => _otherStateMapper(reducer(
-      _stateMapper(state),
+  void add<Payload>(ActionName<Payload> actionName,
+      NestedReducer<State, NestedState, Payload> reducer) {
+    _map[actionName.name] = (state, action) => reducer(
+          state,
+          _stateMapper(state),
           action as Action<Payload>,
-        ));
+        );
   }
 
   /// [combineReducerBuilder] takes a `ReducerBuilder` with the type arguments

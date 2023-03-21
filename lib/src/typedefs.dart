@@ -6,6 +6,9 @@ import 'middleware.dart';
 typedef Reducer<State, Payload> = State Function(
     State state, Action<Payload> action);
 
+typedef NestedReducer<State, NestedState, Payload> = State Function(
+    State state, NestedState nestedState, Action<Payload> action);
+
 /// [ActionHandler] handles an action, this will contain the actual middleware logic
 typedef ActionHandler = void Function(Action<dynamic> a);
 
