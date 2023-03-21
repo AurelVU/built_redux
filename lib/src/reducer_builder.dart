@@ -112,16 +112,20 @@ typedef Mapper<State, NestedState> = NestedState Function(State state);
 class NestedReducerBuilder<State, NestedState> {
   final _map = Map<String, Reducer<State, dynamic>>();
   Mapper<State, NestedState> _stateMapper;
+  Mapper<NestedState, State> _otherStateMapper;
 
-  NestedReducerBuilder(this._stateMapper);
+  NestedReducerBuilder(
+    this._stateMapper,
+    this._otherStateMapper,
+  );
 
   /// Registers [reducer] function to the given [actionName]
   void add<Payload>(
-      ActionName<Payload> actionName, Reducer<State, Payload> reducer) {
-    _map[actionName.name] = (state, action) => reducer(
-          state,
+      ActionName<Payload> actionName, Reducer<NestedState, Payload> reducer) {
+    _map[actionName.name] = (state, action) => _otherStateMapper(reducer(
+      _stateMapper(state),
           action as Action<Payload>,
-        );
+        ));
   }
 
   /// [combineReducerBuilder] takes a `ReducerBuilder` with the type arguments
@@ -137,11 +141,11 @@ class NestedReducerBuilder<State, NestedState> {
 /// model favor composition over inheritance. However, this may be
 /// useful when trying to share functionaity between two separate redux stores.
 class AbstractReducerBuilder<AState, BState> {
-  final _map = Map<String, CReducer<AState, BState,  dynamic>>();
+  final _map = Map<String, CReducer<AState, BState, dynamic>>();
 
   /// Registers [reducer] function to the given [actionName]
-  void add<Payload>(
-      ActionName<Payload> actionName, CReducer<AState, BState, Payload> reducer) {
+  void add<Payload>(ActionName<Payload> actionName,
+      CReducer<AState, BState, Payload> reducer) {
     _map[actionName.name] = (state, action) {
       return reducer(state, action as Action<Payload>);
     };
@@ -153,7 +157,8 @@ class AbstractReducerBuilder<AState, BState> {
 /// This is the Reducer typedef without the Built/Builder constraints
 /// Used for built_collections since they do not implement Built/Builder
 /// but follow the same pattern.
-typedef CReducer<AState, BState,  P> = BState Function(AState state, Action<P> action);
+typedef CReducer<AState, BState, P> = BState Function(
+    AState state, Action<P> action);
 
 /// [ListReducerBuilder] returns a reducer builder that
 /// rebuilds a List nested within the state tree
@@ -164,8 +169,8 @@ class ListReducerBuilder<State, T> {
   ListReducerBuilder(this._stateMapper);
 
   /// Registers [reducer] function to the given [actionName]
-  void add<Payload>(
-      ActionName<Payload> actionName, CReducer<BuiltList<T>, State, Payload> reducer) {
+  void add<Payload>(ActionName<Payload> actionName,
+      CReducer<BuiltList<T>, State, Payload> reducer) {
     _map[actionName.name] = (state, action) => reducer(
           _stateMapper(state),
           action as Action<Payload>,
@@ -185,7 +190,7 @@ class ListMultimapReducerBuilder<State, K, V> {
   void add<Payload>(ActionName<Payload> actionName,
       CReducer<BuiltListMultimap<K, V>, State, Payload> reducer) {
     _map[actionName.name] = (state, action) => reducer(
-      _stateMapper(state),
+          _stateMapper(state),
           action as Action<Payload>,
         );
   }
@@ -203,7 +208,7 @@ class MapReducerBuilder<State, K, V> {
   void add<Payload>(ActionName<Payload> actionName,
       CReducer<BuiltMap<K, V>, State, Payload> reducer) {
     _map[actionName.name] = (state, action) => reducer(
-      _stateMapper(state),
+          _stateMapper(state),
           action as Action<Payload>,
         );
   }
@@ -218,10 +223,10 @@ class SetReducerBuilder<State, T> {
   SetReducerBuilder(this._stateMapper);
 
   /// Registers [reducer] function to the given [actionName]
-  void add<Payload>(
-      ActionName<Payload> actionName, CReducer<BuiltSet<T>, State, Payload> reducer) {
+  void add<Payload>(ActionName<Payload> actionName,
+      CReducer<BuiltSet<T>, State, Payload> reducer) {
     _map[actionName.name] = (state, action) => reducer(
-      _stateMapper(state),
+          _stateMapper(state),
           action as Action<Payload>,
         );
   }
@@ -239,7 +244,7 @@ class SetMultimapReducerBuilder<State, K, V> {
   void add<Payload>(ActionName<Payload> actionName,
       CReducer<BuiltSetMultimap<K, V>, State, Payload> reducer) {
     _map[actionName.name] = (state, action) => reducer(
-      _stateMapper(state),
+          _stateMapper(state),
           action as Action<Payload>,
         );
   }
