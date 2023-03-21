@@ -51,11 +51,11 @@ class Counter {
 // These are reducer functions. They have a (state, action, builder) => void signature.
 // They describes how an action transforms the state into the next state by applying changes to the builder supplied.
 // You are required to use the builder passed, calling state.rebuild will NOT update the state in your redux store.
-void increment(Counter state, Action<int> action) =>
-    state.count = state.count + action.payload;
+Counter increment(Counter state, Action<int> action) =>
+    Counter(count: state.count + action.payload);
 
-void decrement(Counter state, Action<int> action) =>
-    state.count = state.count - action.payload;
+Counter decrement(Counter state, Action<int> action) =>
+    Counter(count: state.count - action.payload);
 
 // This is a reducer builder. Use of ReducerBuilder is not required, however it
 // is strongly recommended as it gives you static type checking to make sure

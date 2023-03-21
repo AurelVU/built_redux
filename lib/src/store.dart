@@ -32,8 +32,7 @@ class Store<State, Actions extends ReduxActions> {
 
     // setup the dispatch chain
     ActionHandler handler = (action) {
-      var state = _state;
-      reducer(_state, action);
+      var state = reducer(_state, action);
 
       // if the state did not change do not publish an event
       if (_state == state) return;

@@ -3,7 +3,7 @@ import 'middleware.dart';
 
 /// [Reducer] is a function that given a state of type V, an Action of type Action<P>, and a
 /// builder of type B builds the next state
-typedef Reducer<State, Payload> = void Function(
+typedef Reducer<State, Payload> = State Function(
     State state, Action<Payload> action);
 
 /// [ActionHandler] handles an action, this will contain the actual middleware logic
