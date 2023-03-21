@@ -69,7 +69,11 @@ class ReducerBuilder<State> {
   /// [build] returns a reducer function that can be passed to a [Store].
   Reducer<State, dynamic> build() => (State state, Action<dynamic> action) {
         final reducer = _map[action.name];
-        return reducer!(state, action);
+        if (reducer != null) {
+          return reducer(state, action);
+        } else {
+          return state;
+        }
       };
 }
 
