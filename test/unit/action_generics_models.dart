@@ -23,22 +23,22 @@ abstract class ActionGenericsActions extends ReduxActions {
   ActionGenericsActions._();
   factory ActionGenericsActions() => _$ActionGenericsActions();
 
-  ActionDispatcher<int> get intAction;
-  ActionDispatcher<Null> get nullAction;
-  ActionDispatcher<int?> get nullableIntAction;
-  ActionDispatcher<Set<int>> get setIntAction;
-  ActionDispatcher<Set<int>?> get nullableSetIntAction;
-  ActionDispatcher<List<int>> get listIntAction;
-  ActionDispatcher<Map<String, List<int>>> get mapStringToListIntAction;
+  ActionDispatcher<int, Null> get intAction;
+  ActionDispatcher<Null, Null> get nullAction;
+  ActionDispatcher<int?, Null> get nullableIntAction;
+  ActionDispatcher<Set<int>, Null> get setIntAction;
+  ActionDispatcher<Set<int>?, Null> get nullableSetIntAction;
+  ActionDispatcher<List<int>, Null> get listIntAction;
+  ActionDispatcher<Map<String, List<int>>, Null> get mapStringToListIntAction;
   ActionDispatcher<
       ThunkTypedef<ActionGenerics, ActionGenericsBuilder,
-          ActionGenericsActions>> get typdefAction;
+          ActionGenericsActions>, Null> get typdefAction;
   ActionDispatcher<
       ThunkTypedef<ActionGenerics, ActionGenericsBuilder,
-          ActionGenericsActions>?> get typdefNullableAction;
-  ActionDispatcher<Foo<int>> get fooAction;
-  ActionDispatcher<Foo<int?>> get fooActionWithNestedNullable;
-  ActionDispatcher<ClassWithBuilt<ActionGenerics, ActionGenericsBuilder>>
+          ActionGenericsActions>?, Null> get typdefNullableAction;
+  ActionDispatcher<Foo<int>, Null> get fooAction;
+  ActionDispatcher<Foo<int?>, Null> get fooActionWithNestedNullable;
+  ActionDispatcher<ClassWithBuilt<ActionGenerics, ActionGenericsBuilder>, Null>
       get classWithBuiltAction;
 }
 
@@ -50,18 +50,18 @@ abstract class ActionGenerics
   factory ActionGenerics() => _$ActionGenerics._(count: 0);
 }
 
-Reducer<ActionGenerics, ActionGenericsBuilder, dynamic>
+Reducer<ActionGenerics, ActionGenericsBuilder, dynamic, dynamic>
     getActionGenericsReducer() =>
         (ReducerBuilder<ActionGenerics, ActionGenericsBuilder>()
-              ..add<int>(ActionGenericsActionsNames.intAction,
+              ..add<int, Null>(ActionGenericsActionsNames.intAction,
                   (s, a, b) => b.count = s.count + a.payload)
-              ..add<Null>(ActionGenericsActionsNames.nullAction,
+              ..add<Null, Null>(ActionGenericsActionsNames.nullAction,
                   (s, a, b) => b.count = s.count + 1)
-              ..add<List<int>>(
+              ..add<List<int>, Null>(
                   ActionGenericsActionsNames.listIntAction,
                   (s, a, b) => b.count =
                       s.count + a.payload.fold<int>(0, (c, n) => c + n))
-              ..add<Map<String, List<int>>>(
+              ..add<Map<String, List<int>>, Null>(
                   ActionGenericsActionsNames.mapStringToListIntAction,
                   (s, a, b) => b.count =
                       s.count + a.payload['k']!.fold<int>(0, (c, n) => c + n)))

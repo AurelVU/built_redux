@@ -14,8 +14,8 @@ class _$CounterActions extends CounterActions {
   factory _$CounterActions() => _$CounterActions._();
   _$CounterActions._() : super._();
 
-  final increment = ActionDispatcher<int>('CounterActions-increment');
-  final decrement = ActionDispatcher<int>('CounterActions-decrement');
+  final increment = ActionDispatcher<int, Null>('CounterActions-increment');
+  final decrement = ActionDispatcher<int, Null>('CounterActions-decrement');
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
@@ -25,8 +25,8 @@ class _$CounterActions extends CounterActions {
 }
 
 class CounterActionsNames {
-  static final increment = ActionName<int>('CounterActions-increment');
-  static final decrement = ActionName<int>('CounterActions-decrement');
+  static final increment = ActionName<int, Null>('CounterActions-increment');
+  static final decrement = ActionName<int, Null>('CounterActions-decrement');
 }
 
 // **************************************************************************
@@ -38,10 +38,10 @@ class _$Counter extends Counter {
   final int count;
 
   factory _$Counter([void Function(CounterBuilder)? updates]) =>
-      (new CounterBuilder()..update(updates)).build();
+      (new CounterBuilder()..update(updates))._build();
 
   _$Counter._({required this.count}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(count, 'Counter', 'count');
+    BuiltValueNullFieldError.checkNotNull(count, r'Counter', 'count');
   }
 
   @override
@@ -59,12 +59,15 @@ class _$Counter extends Counter {
 
   @override
   int get hashCode {
-    return $jf($jc(0, count.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, count.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Counter')..add('count', count))
+    return (newBuiltValueToStringHelper(r'Counter')..add('count', count))
         .toString();
   }
 }
@@ -99,14 +102,16 @@ class CounterBuilder implements Builder<Counter, CounterBuilder> {
   }
 
   @override
-  _$Counter build() {
+  Counter build() => _build();
+
+  _$Counter _build() {
     final _$result = _$v ??
         new _$Counter._(
             count: BuiltValueNullFieldError.checkNotNull(
-                count, 'Counter', 'count'));
+                count, r'Counter', 'count'));
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

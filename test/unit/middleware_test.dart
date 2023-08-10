@@ -40,9 +40,9 @@ void main() {
     test('2 middlewares doubles count twice and updates state', () async {
       setup(numMiddleware: 2);
       final onStateChangeCompleter =
-          Completer<StoreChange<Counter, CounterBuilder, dynamic>>();
+          Completer<StoreChange<Counter, CounterBuilder, dynamic, dynamic>>();
       final onStateChangeCompleter2 =
-          Completer<StoreChange<Counter, CounterBuilder, dynamic>>();
+          Completer<StoreChange<Counter, CounterBuilder, dynamic, dynamic>>();
 
       store.stream.listen((state) {
         if (!onStateChangeCompleter.isCompleted)

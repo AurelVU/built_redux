@@ -27,8 +27,8 @@ void main() {
 // each action and an ActionNames class. The ActionNames class is used to register
 // reducers
 abstract class CounterActions extends ReduxActions {
-  ActionDispatcher<int> get increment;
-  ActionDispatcher<int> get decrement;
+  ActionDispatcher<int, Null> get increment;
+  ActionDispatcher<int, Null> get decrement;
 
   // factory to create on instance of the generated implementation of CounterActions
   CounterActions._();
@@ -49,10 +49,10 @@ abstract class Counter implements Built<Counter, CounterBuilder> {
 // These are reducer functions. They have a (state, action, builder) => void signature.
 // They describes how an action transforms the state into the next state by applying changes to the builder supplied.
 // You are required to use the builder passed, calling state.rebuild will NOT update the state in your redux store.
-void increment(Counter state, Action<int> action, CounterBuilder builder) =>
+void increment(Counter state, Action<int, Null> action, CounterBuilder builder) =>
     builder.count = state.count + action.payload;
 
-void decrement(Counter state, Action<int> action, CounterBuilder builder) =>
+void decrement(Counter state, Action<int, Null> action, CounterBuilder builder) =>
     builder.count = state.count - action.payload;
 
 // This is a reducer builder. Use of ReducerBuilder is not required, however it

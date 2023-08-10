@@ -30,19 +30,19 @@ abstract class Child implements Built<Child, ChildBuilder> {
 // This ReducerBuilder could be modified to handle more
 // actions that could rebuild any peice of state within the Base object.
 // Reducers added to the ReducerBuilder must have the signature:
-// (Base, Action<T>, BaseBuilder)
+// (Base, Action<T, R>, BaseBuilder)
 final baseReducerBuilder = ReducerBuilder<Base, BaseBuilder>()
-  ..add<Null>(BaseActionsNames.baseAction, (s, a, b) => b.count++)
+  ..add<Null, Null>(BaseActionsNames.baseAction, (s, a, b) => b.count++)
   ..combineNested(childReducerBuilder);
 
 // childReducerBuilder is a nested reducer builder that rebuilds the
 // child built when childAction is dispatched. This NestedReducerBuilder
 // could be modified to handle more actions that rebuild Child.
 // Reducers added to the NestedReducerBuilder must have the signature:
-// (Child, Action<T>, ChildBuilder)
+// (Child, Action<T, R>, ChildBuilder)
 final childReducerBuilder = NestedReducerBuilder<Base, BaseBuilder, Child, ChildBuilder>(
         (s) => s.child, (b) => b.child) // maps from the main state object to the nested state
-      ..add<Null>(ChildActionsNames.childAction, (s, a, b) => b.count++);
+      ..add<Null, Null>(ChildActionsNames.childAction, (s, a, b) => b.count++);
 
 ```
 
@@ -69,18 +69,18 @@ abstract class Base implements Built<Base, BaseBuilder> {
 // This ReducerBuilder could be modified to handle more
 // actions that could rebuild any peice of state within the Base object.
 // Reducers added to the ReducerBuilder must have the signature:
-// (Base, Action<T>, BaseBuilder)
+// (Base, Action<T, R>, BaseBuilder)
 final baseReducerBuilder = ReducerBuilder<Base, BaseBuilder>()
-  ..add<Null>(BaseActionsNames.baseAction, (s, a, b) => b.count++)
+  ..add<Null, Null>(BaseActionsNames.baseAction, (s, a, b) => b.count++)
   ..combineList(listReducerBuilder);
 
 // listReducerBuilder is a ListReducerBuilder that rebuilds the list
 // when builtListAction is dispatched. This ListReducerBuilder
 // could be modified to handle more actions that rebuild builtList.
 // Reducers added to the ListReducerBuilder must have the signature:
-// (BuiltList<int>, Action<T>, ListBuilder<int>)
+// (BuiltList<int>, Action<T, R>, ListBuilder<int>)
 final listReducerBuilder = ListReducerBuilder<Collection, CollectionBuilder, int>(
         (s) => s.builtList, (b) => b.builtList) // maps from the main state object to the nested collection
-      ..add<Null>(CollectionActionsNames.builtListAction, (s, a, b) => b.add(0));
+      ..add<Null, Null>(CollectionActionsNames.builtListAction, (s, a, b) => b.add(0));
 
 ```

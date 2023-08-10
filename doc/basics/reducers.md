@@ -31,7 +31,7 @@ abstract class App implements Built<App, AppBuilder> {
 I can define a simple reducer function as follows:
 
 ```dart
-void counterReducer(App prevState, Action<dynamic> action, AppBuilder builder) {
+void counterReducer(App prevState, Action<dynamic, dynamic> action, AppBuilder builder) {
   if (action.name == AppActionsNames.increment.name)
     builder.count += action.payload as int;
   else if (action.name == AppActionsNames.decrement.name)

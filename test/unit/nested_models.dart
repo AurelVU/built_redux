@@ -13,7 +13,7 @@ abstract class BaseActions extends ReduxActions {
   BaseActions._();
   factory BaseActions() => _$BaseActions();
 
-  ActionDispatcher<Null> get baseAction;
+  ActionDispatcher<Null, Null> get baseAction;
   ChildActions get child;
 }
 
@@ -23,7 +23,7 @@ abstract class ChildActions extends ReduxActions {
   ChildActions._();
   factory ChildActions() => _$ChildActions();
 
-  ActionDispatcher<Null> get childAction;
+  ActionDispatcher<Null, Null> get childAction;
   GrandchildActions get grandchild;
 }
 
@@ -32,7 +32,7 @@ abstract class GrandchildActions extends ReduxActions {
   GrandchildActions._();
   factory GrandchildActions() => _$GrandchildActions();
 
-  ActionDispatcher<Null> get grandchildAction;
+  ActionDispatcher<Null, Null> get grandchildAction;
 }
 
 // Base is the main built class that contains all of the state
@@ -68,10 +68,10 @@ abstract class Grandchild implements Built<Grandchild, GrandchildBuilder> {
 // This ReducerBuilder could be modified to handle more
 // actions that could rebuild any peice of state within the Base object.
 // Reducers added to the ReducerBuilder must have the signature:
-// (Base, Action<T>, BaseBuilder)
-Reducer<Base, BaseBuilder, dynamic> getBaseReducer() =>
+// (Base, Action<T, R>, BaseBuilder)
+Reducer<Base, BaseBuilder, dynamic, dynamic> getBaseReducer() =>
     (ReducerBuilder<Base, BaseBuilder>()
-          ..add<Null>(
+          ..add<Null, Null>(
               BaseActionsNames.baseAction, (s, a, b) => b.count = s.count + 1)
           ..combineNested(getChildReducer())
           ..combineNested(getNestedGrandchildReducer()))
@@ -81,19 +81,19 @@ Reducer<Base, BaseBuilder, dynamic> getBaseReducer() =>
 // child built when childAction is dispatched. This NestedReducerBuilder
 // could be modified to handle more actions that rebuild Child.
 // Reducers added to the NestedReducerBuilder must have the signature:
-// (Child, Action<T>, ChildBuilder)
+// (Child, Action<T, R>, ChildBuilder)
 NestedReducerBuilder<Base, BaseBuilder, Child, ChildBuilder>
     getChildReducer() =>
         (NestedReducerBuilder<Base, BaseBuilder, Child, ChildBuilder>(
             (s) => s.child, (b) => b.child)
-          ..add<Null>(ChildActionsNames.childAction,
+          ..add<Null, Null>(ChildActionsNames.childAction,
               (s, a, b) => b.count = s.count + 1));
 
 // getGrandchildReducer returns a nested reducer builder that rebuilds the
 // grandchild built when grandchildAction is dispatched. This NestedReducerBuilder
 // could be modified to handle more actions that rebuild Grandchild.
 // Reducers added to the NestedReducerBuilder must have the signature:
-// (Grandchild, Action<T>, GrandchildBuilder)
+// (Grandchild, Action<T, R>, GrandchildBuilder)
 NestedReducerBuilder<Base, BaseBuilder, Grandchild, GrandchildBuilder>
     getNestedGrandchildReducer() =>
         NestedReducerBuilder<Base, BaseBuilder, Grandchild, GrandchildBuilder>(
@@ -102,5 +102,5 @@ NestedReducerBuilder<Base, BaseBuilder, Grandchild, GrandchildBuilder>
 
 ReducerBuilder<Grandchild, GrandchildBuilder> getGrandchildReducer() =>
     ReducerBuilder<Grandchild, GrandchildBuilder>()
-      ..add<Null>(GrandchildActionsNames.grandchildAction,
+      ..add<Null, Null>(GrandchildActionsNames.grandchildAction,
           (s, a, b) => b.count = s.count + 1);

@@ -15,7 +15,7 @@ class Store<
     StateBuilder extends Builder<State, StateBuilder>,
     Actions extends ReduxActions> {
   // stream used to dispatch changes to the state
-  final StreamController<StoreChange<State, StateBuilder, dynamic>>
+  final StreamController<StoreChange<State, StateBuilder, dynamic, dynamic>>
       _stateController = StreamController.broadcast();
 
   // the current state
@@ -23,7 +23,7 @@ class Store<
   late final Actions _actions;
 
   Store(
-    Reducer<State, StateBuilder, dynamic> reducer,
+    Reducer<State, StateBuilder, dynamic, dynamic> reducer,
     State defaultState,
     Actions actions, {
     Iterable<Middleware<State, StateBuilder, Actions>> middleware = const [],
@@ -45,7 +45,7 @@ class Store<
       // update the internal state and publish the change
       if (!_stateController.isClosed)
         _stateController.add(
-            StoreChange<State, StateBuilder, dynamic>(state, _state, action));
+            StoreChange<State, StateBuilder, dynamic, dynamic>(state, _state, action));
 
       _state = state;
     };
@@ -76,8 +76,8 @@ class Store<
   /// Useful for undo/redo, testing, and development tools
   void replaceState(State state) {
     if (_state != state) {
-      _stateController.add(StoreChange<State, StateBuilder, dynamic>(
-          state, _state, Action<Null>('replaceState', null)));
+      _stateController.add(StoreChange<State, StateBuilder, dynamic, dynamic>(
+          state, _state, Action<Null, Null>('replaceState', null, null)));
       _state = state;
     }
   }
@@ -86,7 +86,7 @@ class Store<
   State get state => _state;
 
   /// [subscribe] returns a stream that will be dispatched whenever the state changes
-  Stream<StoreChange<State, StateBuilder, dynamic>> get stream =>
+  Stream<StoreChange<State, StateBuilder, dynamic, dynamic>> get stream =>
       _stateController.stream;
 
   /// [actions] returns the synced actions
@@ -94,7 +94,7 @@ class Store<
 
   /// [nextState] is a stream which has a payload of the next state value, rather than the StoreChange event
   Stream<State> get nextState => stream
-      .map((StoreChange<State, StateBuilder, dynamic> change) => change.next);
+      .map((StoreChange<State, StateBuilder, dynamic, dynamic> change) => change.next);
 
   /// [substateStream] returns a stream to the state that is returned by the mapper function.
   /// For example: say my state object had a property count, then store.substateStream((state) => state.count),
@@ -119,13 +119,13 @@ class Store<
   /// [actionStream] returns a stream the fires when a state change is caused by the action
   /// with the name provided. Check out built_redux_rx if you are looking for streams to actions that do not
   /// necessarily result in state changes.
-  Stream<StoreChange<State, StateBuilder, Payload>> actionStream<Payload>(
-          ActionName<Payload> actionName) =>
+  Stream<StoreChange<State, StateBuilder, Payload, Result>> actionStream<Payload, Result>(
+          ActionName<Payload, Result> actionName) =>
       stream
           .where((c) => c.action.name == actionName.name)
-          .map((c) => StoreChange<State, StateBuilder, Payload>(
+          .map((c) => StoreChange<State, StateBuilder, Payload, Result>(
                 c.next,
                 c.prev,
-                c.action as Action<Payload>,
+                c.action as Action<Payload, Result>,
               ));
 }

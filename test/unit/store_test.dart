@@ -23,7 +23,7 @@ void main() {
 
     test('basic action fires stream', () async {
       final onStateChangeCompleter =
-          Completer<StoreChange<Counter, CounterBuilder, dynamic>>();
+          Completer<StoreChange<Counter, CounterBuilder, dynamic, dynamic>>();
       store.stream.listen(onStateChangeCompleter.complete);
       store.actions.increment(2);
       final stateChange = await onStateChangeCompleter.future;
@@ -33,7 +33,7 @@ void main() {
 
     test('store change handler', () async {
       final onStateChangeCompleter =
-          Completer<StoreChange<Counter, CounterBuilder, dynamic>>();
+          Completer<StoreChange<Counter, CounterBuilder, dynamic, dynamic>>();
 
       final storeChangeHandler = createChangeHandler(onStateChangeCompleter);
       storeChangeHandler.build(store);
@@ -50,9 +50,9 @@ void main() {
 
     test('replaceState', () async {
       final onStateChangeCompleter =
-          Completer<StoreChange<Counter, CounterBuilder, dynamic>>();
+          Completer<StoreChange<Counter, CounterBuilder, dynamic, dynamic>>();
       final onStateChangeCompleter2 =
-          Completer<StoreChange<Counter, CounterBuilder, dynamic>>();
+          Completer<StoreChange<Counter, CounterBuilder, dynamic, dynamic>>();
 
       store.stream.listen((state) {
         if (!onStateChangeCompleter.isCompleted)
@@ -109,7 +109,7 @@ void main() {
 
     test('actionStream', () async {
       final onStateChangeCompleter =
-          Completer<StoreChange<Counter, CounterBuilder, int>>();
+          Completer<StoreChange<Counter, CounterBuilder, int, dynamic>>();
       store
           .actionStream(CounterActionsNames.increment)
           .listen(onStateChangeCompleter.complete);

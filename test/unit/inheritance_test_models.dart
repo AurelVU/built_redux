@@ -7,7 +7,7 @@ part 'inheritance_test_models.g.dart';
 
 // ChildActions is the only of the three that yield the generated classes
 abstract class ChildActions extends ParentActions {
-  ActionDispatcher<Null> get childAction;
+  ActionDispatcher<Null, Null> get childAction;
 
   ChildActions._();
   factory ChildActions() => _$ChildActions();
@@ -15,12 +15,12 @@ abstract class ChildActions extends ParentActions {
 
 // ParentActions will be inherited by ChildActions
 abstract class ParentActions extends GrandparentActions {
-  ActionDispatcher<Null> get parentAction;
+  ActionDispatcher<Null, Null> get parentAction;
 }
 
 // GrandparentActions will be inherited by ChildActions
 abstract class GrandparentActions extends ReduxActions {
-  ActionDispatcher<Null> get grandparentAction;
+  ActionDispatcher<Null, Null> get grandparentAction;
 }
 
 // Parent will be impelemented by Child
@@ -53,16 +53,16 @@ abstract class Child
 // This ReducerBuilder could be modified to handle more
 // actions that could rebuild any peice of state within the Child object.
 // Reducers added to the ReducerBuilder must have one of the following signatures:
-// (Child, Action<T>, ChildBuilder)
-// (Parent, Action<T>, ParentBuilder)
-// (Grandparent, Action<T>, GrandparentBuilder)
-Reducer<Child, ChildBuilder, dynamic> getInheritanceReducer() =>
+// (Child, Action<T, R>, ChildBuilder)
+// (Parent, Action<T, R>, ParentBuilder)
+// (Grandparent, Action<T, R>, GrandparentBuilder)
+Reducer<Child, ChildBuilder, dynamic, dynamic> getInheritanceReducer() =>
     (ReducerBuilder<Child, ChildBuilder>()
-          ..add<Null>(
+          ..add<Null, Null>(
               ChildActionsNames.childAction,
               (state, action, builder) =>
                   builder.childCount = state.childCount + 1)
-          ..add<Null>(
+          ..add<Null, Null>(
               ChildActionsNames.parentAction,
               (Parent state, action, ParentBuilder builder) =>
                   builder.parentCount = state.parentCount + 2)
@@ -73,10 +73,10 @@ Reducer<Child, ChildBuilder, dynamic> getInheritanceReducer() =>
 // interface when grandparentAction is dispatched. This AbstractReducerBuilder
 // could be modified to handle more actions that rebuild values from the Grandparent interface.
 // Reducers added to the AbstractReducerBuilder must have the signature:
-// (Grandparent, Action<T>, GrandparentBuilder)
+// (Grandparent, Action<T, R>, GrandparentBuilder)
 AbstractReducerBuilder<Grandparent, GrandparentBuilder> grandparentBuilder =
     AbstractReducerBuilder<Grandparent, GrandparentBuilder>()
-      ..add<Null>(
+      ..add<Null, Null>(
           ChildActionsNames.grandparentAction,
           (state, action, builder) =>
               builder.grandparentCount = state.grandparentCount + 3);

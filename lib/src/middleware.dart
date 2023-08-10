@@ -28,18 +28,18 @@ class MiddlewareApi<
 /// [MiddlewareBuilder] allows you to build a reducer that handles many different actions
 /// with many different payload types, while maintaining type safety.
 /// Each [MiddlewareHandler] added with add<T> must take a state of type State, an Action of type
-/// Action<T>, and a builder of type StateBuilder
+/// Action<T, R>, and a builder of type StateBuilder
 class MiddlewareBuilder<
     State extends Built<State, StateBuilder>,
     StateBuilder extends Builder<State, StateBuilder>,
     Actions extends ReduxActions> {
   var _map =
-      Map<String, MiddlewareHandler<State, StateBuilder, Actions, dynamic>>();
+      Map<String, MiddlewareHandler<State, StateBuilder, Actions, dynamic, dynamic>>();
 
-  void add<Payload>(ActionName<Payload> aMgr,
-      MiddlewareHandler<State, StateBuilder, Actions, Payload> handler) {
+  void add<Payload, Result extends Object?>(ActionName<Payload, Result> aMgr,
+      MiddlewareHandler<State, StateBuilder, Actions, Payload, Result> handler) {
     _map[aMgr.name] = (api, next, action) {
-      handler(api, next, action as Action<Payload>);
+      handler(api, next, action as Action<Payload, Result>);
     };
   }
 
@@ -63,7 +63,7 @@ class MiddlewareBuilder<
   /// [build] returns a [Middleware] function that handles all actions added with [add]
   Middleware<State, StateBuilder, Actions> build() =>
       (MiddlewareApi<State, StateBuilder, Actions> api) =>
-          (ActionHandler next) => (Action<dynamic> action) {
+          (ActionHandler next) => (Action<dynamic, dynamic> action) {
                 var handler = _map[action.name];
                 if (handler != null) {
                   handler(api, next, action);
@@ -82,23 +82,23 @@ class NestedMiddlewareBuilder<
     NestedStateBuilder extends Builder<NestedState, NestedStateBuilder>,
     NestedActions extends ReduxActions> {
   final _map =
-      Map<String, MiddlewareHandler<State, StateBuilder, Actions, dynamic>>();
+      Map<String, MiddlewareHandler<State, StateBuilder, Actions, dynamic, dynamic>>();
 
   final NestedState Function(State) _stateMapper;
   final NestedActions Function(Actions) _actionsMapper;
 
   NestedMiddlewareBuilder(this._stateMapper, this._actionsMapper);
 
-  void add<Payload>(
-      ActionName<Payload> aMgr,
-      MiddlewareHandler<NestedState, NestedStateBuilder, NestedActions, Payload>
+  void add<Payload, Result extends Object?>(
+      ActionName<Payload, Result> aMgr,
+      MiddlewareHandler<NestedState, NestedStateBuilder, NestedActions, Payload, Result>
           handler) {
     _map[aMgr.name] = (api, next, action) {
       handler(
           MiddlewareApi._(
               () => _stateMapper(api.state), () => _actionsMapper(api.actions)),
           next,
-          action as Action<Payload>);
+          action as Action<Payload, Result>);
     };
   }
 
@@ -127,6 +127,6 @@ typedef MiddlewareHandler<
         State extends Built<State, StateBuilder>,
         StateBuilder extends Builder<State, StateBuilder>,
         Actions extends ReduxActions,
-        Payload>
+        Payload, Result extends Object?>
     = void Function(MiddlewareApi<State, StateBuilder, Actions> api,
-        ActionHandler next, Action<Payload> action);
+        ActionHandler next, Action<Payload, Result> action);

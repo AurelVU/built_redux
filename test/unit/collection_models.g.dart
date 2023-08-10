@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of collection_models;
+part of 'collection_models.dart';
 
 // **************************************************************************
 // BuiltReduxGenerator
@@ -15,15 +15,15 @@ class _$CollectionActions extends CollectionActions {
   _$CollectionActions._() : super._();
 
   final builtListAction =
-      ActionDispatcher<Null>('CollectionActions-builtListAction');
+      ActionDispatcher<Null, Null>('CollectionActions-builtListAction');
   final builtListMultimapAction =
-      ActionDispatcher<Null>('CollectionActions-builtListMultimapAction');
+      ActionDispatcher<Null, Null>('CollectionActions-builtListMultimapAction');
   final builtMapAction =
-      ActionDispatcher<Null>('CollectionActions-builtMapAction');
+      ActionDispatcher<Null, Null>('CollectionActions-builtMapAction');
   final builtSetAction =
-      ActionDispatcher<Null>('CollectionActions-builtSetAction');
+      ActionDispatcher<Null, Null>('CollectionActions-builtSetAction');
   final builtSetMultimapAction =
-      ActionDispatcher<Null>('CollectionActions-builtSetMultimapAction');
+      ActionDispatcher<Null, Null>('CollectionActions-builtSetMultimapAction');
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
@@ -37,15 +37,15 @@ class _$CollectionActions extends CollectionActions {
 
 class CollectionActionsNames {
   static final builtListAction =
-      ActionName<Null>('CollectionActions-builtListAction');
+      ActionName<Null, Null>('CollectionActions-builtListAction');
   static final builtListMultimapAction =
-      ActionName<Null>('CollectionActions-builtListMultimapAction');
+      ActionName<Null, Null>('CollectionActions-builtListMultimapAction');
   static final builtMapAction =
-      ActionName<Null>('CollectionActions-builtMapAction');
+      ActionName<Null, Null>('CollectionActions-builtMapAction');
   static final builtSetAction =
-      ActionName<Null>('CollectionActions-builtSetAction');
+      ActionName<Null, Null>('CollectionActions-builtSetAction');
   static final builtSetMultimapAction =
-      ActionName<Null>('CollectionActions-builtSetMultimapAction');
+      ActionName<Null, Null>('CollectionActions-builtSetMultimapAction');
 }
 
 // **************************************************************************
@@ -65,7 +65,7 @@ class _$Collection extends Collection {
   final BuiltSetMultimap<int, int> builtSetMultimap;
 
   factory _$Collection([void Function(CollectionBuilder)? updates]) =>
-      (new CollectionBuilder()..update(updates)).build();
+      (new CollectionBuilder()..update(updates))._build();
 
   _$Collection._(
       {required this.builtList,
@@ -74,13 +74,14 @@ class _$Collection extends Collection {
       required this.builtSet,
       required this.builtSetMultimap})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(builtList, 'Collection', 'builtList');
     BuiltValueNullFieldError.checkNotNull(
-        builtListMultimap, 'Collection', 'builtListMultimap');
-    BuiltValueNullFieldError.checkNotNull(builtMap, 'Collection', 'builtMap');
-    BuiltValueNullFieldError.checkNotNull(builtSet, 'Collection', 'builtSet');
+        builtList, r'Collection', 'builtList');
     BuiltValueNullFieldError.checkNotNull(
-        builtSetMultimap, 'Collection', 'builtSetMultimap');
+        builtListMultimap, r'Collection', 'builtListMultimap');
+    BuiltValueNullFieldError.checkNotNull(builtMap, r'Collection', 'builtMap');
+    BuiltValueNullFieldError.checkNotNull(builtSet, r'Collection', 'builtSet');
+    BuiltValueNullFieldError.checkNotNull(
+        builtSetMultimap, r'Collection', 'builtSetMultimap');
   }
 
   @override
@@ -103,17 +104,19 @@ class _$Collection extends Collection {
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc(
-            $jc($jc($jc(0, builtList.hashCode), builtListMultimap.hashCode),
-                builtMap.hashCode),
-            builtSet.hashCode),
-        builtSetMultimap.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, builtList.hashCode);
+    _$hash = $jc(_$hash, builtListMultimap.hashCode);
+    _$hash = $jc(_$hash, builtMap.hashCode);
+    _$hash = $jc(_$hash, builtSet.hashCode);
+    _$hash = $jc(_$hash, builtSetMultimap.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Collection')
+    return (newBuiltValueToStringHelper(r'Collection')
           ..add('builtList', builtList)
           ..add('builtListMultimap', builtListMultimap)
           ..add('builtMap', builtMap)
@@ -179,7 +182,9 @@ class CollectionBuilder implements Builder<Collection, CollectionBuilder> {
   }
 
   @override
-  _$Collection build() {
+  Collection build() => _build();
+
+  _$Collection _build() {
     _$Collection _$result;
     try {
       _$result = _$v ??
@@ -204,7 +209,7 @@ class CollectionBuilder implements Builder<Collection, CollectionBuilder> {
         builtSetMultimap.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'Collection', _$failedField, e.toString());
+            r'Collection', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -213,4 +218,4 @@ class CollectionBuilder implements Builder<Collection, CollectionBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

@@ -24,8 +24,8 @@ I must dispatch an action to tell the store to update. So I want to define two a
 abstract class AppActions extends ReduxActions {
   AppActions._();
   factory AppActions() => _$AppActions();
-  ActionDispatcher<Null> increment;
-  ActionDispatcher<Null> decrement;
+  ActionDispatcher<Null, Null> increment;
+  ActionDispatcher<Null, Null> decrement;
 }
 ```
 

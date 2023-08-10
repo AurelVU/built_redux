@@ -45,9 +45,9 @@ abstract class AppActions extends ReduxActions {
   ActionDispatcher<String> get addTodo;
   ActionDispatcher<String> get removeTodo;
   ActionDispatcher<String> get toggleTodoState;
-  ActionDispatcher<Null> get markAllTodosAsComplete;
+  ActionDispatcher<Null, Null> get markAllTodosAsComplete;
   ActionDispatcher<int> get setFilter;
-  ActionDispatcher<Null> get clearFilter;
+  ActionDispatcher<Null, Null> get clearFilter;
 }
 ```
 
@@ -68,14 +68,14 @@ abstract class TodosActions extends ReduxActions {
   ActionDispatcher<String> get addTodo;
   ActionDispatcher<String> get removeTodo;
   ActionDispatcher<String> get toggleTodoState;
-  ActionDispatcher<Null> get markAllTodosAsComplete;
+  ActionDispatcher<Null, Null> get markAllTodosAsComplete;
 }
 // _$FilterActions is generated
 abstract class FilterActions extends ReduxActions {
   FilterActions._();
   factory FilterActions() => _$FilterActions();
   ActionDispatcher<int> get setFilter;
-  ActionDispatcher<Null> get clearFilter;
+  ActionDispatcher<Null, Null> get clearFilter;
 }
 ```
 

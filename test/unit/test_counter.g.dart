@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of test_counter;
+part of 'test_counter.dart';
 
 // **************************************************************************
 // BuiltReduxGenerator
@@ -14,8 +14,9 @@ class _$CounterActions extends CounterActions {
   factory _$CounterActions() => _$CounterActions._();
   _$CounterActions._() : super._();
 
-  final increment = ActionDispatcher<int>('CounterActions-increment');
-  final incrementOther = ActionDispatcher<int>('CounterActions-incrementOther');
+  final increment = ActionDispatcher<int, Null>('CounterActions-increment');
+  final incrementOther =
+      ActionDispatcher<int, Null>('CounterActions-incrementOther');
 
   final subCounterActions = SubCounterActions();
   final middlewareActions = MiddlewareActions();
@@ -31,17 +32,17 @@ class _$CounterActions extends CounterActions {
 }
 
 class CounterActionsNames {
-  static final increment = ActionName<int>('CounterActions-increment');
+  static final increment = ActionName<int, Null>('CounterActions-increment');
   static final incrementOther =
-      ActionName<int>('CounterActions-incrementOther');
+      ActionName<int, Null>('CounterActions-incrementOther');
 }
 
 class _$SubCounterActions extends SubCounterActions {
   factory _$SubCounterActions() => _$SubCounterActions._();
   _$SubCounterActions._() : super._();
 
-  final increment = ActionDispatcher<int>('SubCounterActions-increment');
-  final doubleIt = ActionDispatcher<int>('SubCounterActions-doubleIt');
+  final increment = ActionDispatcher<int, Null>('SubCounterActions-increment');
+  final doubleIt = ActionDispatcher<int, Null>('SubCounterActions-doubleIt');
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
@@ -51,16 +52,16 @@ class _$SubCounterActions extends SubCounterActions {
 }
 
 class SubCounterActionsNames {
-  static final increment = ActionName<int>('SubCounterActions-increment');
-  static final doubleIt = ActionName<int>('SubCounterActions-doubleIt');
+  static final increment = ActionName<int, Null>('SubCounterActions-increment');
+  static final doubleIt = ActionName<int, Null>('SubCounterActions-doubleIt');
 }
 
 class _$MiddlewareActions extends MiddlewareActions {
   factory _$MiddlewareActions() => _$MiddlewareActions._();
   _$MiddlewareActions._() : super._();
 
-  final doubleIt = ActionDispatcher<int>('MiddlewareActions-doubleIt');
-  final tripleIt = ActionDispatcher<int>('MiddlewareActions-tripleIt');
+  final doubleIt = ActionDispatcher<int, Null>('MiddlewareActions-doubleIt');
+  final tripleIt = ActionDispatcher<int, Null>('MiddlewareActions-tripleIt');
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
@@ -70,8 +71,8 @@ class _$MiddlewareActions extends MiddlewareActions {
 }
 
 class MiddlewareActionsNames {
-  static final doubleIt = ActionName<int>('MiddlewareActions-doubleIt');
-  static final tripleIt = ActionName<int>('MiddlewareActions-tripleIt');
+  static final doubleIt = ActionName<int, Null>('MiddlewareActions-doubleIt');
+  static final tripleIt = ActionName<int, Null>('MiddlewareActions-tripleIt');
 }
 
 // **************************************************************************
@@ -87,14 +88,14 @@ class _$Counter extends Counter {
   final SubCounter subCounter;
 
   factory _$Counter([void Function(CounterBuilder)? updates]) =>
-      (new CounterBuilder()..update(updates)).build();
+      (new CounterBuilder()..update(updates))._build();
 
   _$Counter._(
       {required this.count, required this.otherCount, required this.subCounter})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(count, 'Counter', 'count');
-    BuiltValueNullFieldError.checkNotNull(otherCount, 'Counter', 'otherCount');
-    BuiltValueNullFieldError.checkNotNull(subCounter, 'Counter', 'subCounter');
+    BuiltValueNullFieldError.checkNotNull(count, r'Counter', 'count');
+    BuiltValueNullFieldError.checkNotNull(otherCount, r'Counter', 'otherCount');
+    BuiltValueNullFieldError.checkNotNull(subCounter, r'Counter', 'subCounter');
   }
 
   @override
@@ -115,13 +116,17 @@ class _$Counter extends Counter {
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc($jc(0, count.hashCode), otherCount.hashCode), subCounter.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, count.hashCode);
+    _$hash = $jc(_$hash, otherCount.hashCode);
+    _$hash = $jc(_$hash, subCounter.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Counter')
+    return (newBuiltValueToStringHelper(r'Counter')
           ..add('count', count)
           ..add('otherCount', otherCount)
           ..add('subCounter', subCounter))
@@ -171,15 +176,17 @@ class CounterBuilder implements Builder<Counter, CounterBuilder> {
   }
 
   @override
-  _$Counter build() {
+  Counter build() => _build();
+
+  _$Counter _build() {
     _$Counter _$result;
     try {
       _$result = _$v ??
           new _$Counter._(
               count: BuiltValueNullFieldError.checkNotNull(
-                  count, 'Counter', 'count'),
+                  count, r'Counter', 'count'),
               otherCount: BuiltValueNullFieldError.checkNotNull(
-                  otherCount, 'Counter', 'otherCount'),
+                  otherCount, r'Counter', 'otherCount'),
               subCounter: subCounter.build());
     } catch (_) {
       late String _$failedField;
@@ -188,7 +195,7 @@ class CounterBuilder implements Builder<Counter, CounterBuilder> {
         subCounter.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'Counter', _$failedField, e.toString());
+            r'Counter', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -202,10 +209,10 @@ class _$SubCounter extends SubCounter {
   final int subCount;
 
   factory _$SubCounter([void Function(SubCounterBuilder)? updates]) =>
-      (new SubCounterBuilder()..update(updates)).build();
+      (new SubCounterBuilder()..update(updates))._build();
 
   _$SubCounter._({required this.subCount}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(subCount, 'SubCounter', 'subCount');
+    BuiltValueNullFieldError.checkNotNull(subCount, r'SubCounter', 'subCount');
   }
 
   @override
@@ -223,12 +230,15 @@ class _$SubCounter extends SubCounter {
 
   @override
   int get hashCode {
-    return $jf($jc(0, subCount.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, subCount.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SubCounter')
+    return (newBuiltValueToStringHelper(r'SubCounter')
           ..add('subCount', subCount))
         .toString();
   }
@@ -264,14 +274,16 @@ class SubCounterBuilder implements Builder<SubCounter, SubCounterBuilder> {
   }
 
   @override
-  _$SubCounter build() {
+  SubCounter build() => _build();
+
+  _$SubCounter _build() {
     final _$result = _$v ??
         new _$SubCounter._(
             subCount: BuiltValueNullFieldError.checkNotNull(
-                subCount, 'SubCounter', 'subCount'));
+                subCount, r'SubCounter', 'subCount'));
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

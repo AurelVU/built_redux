@@ -5,15 +5,15 @@ import 'built_redux.dart';
 /// at a later time using expectAsync1. It runs the [verifier] function provided
 /// when the action is called so you can perform expects on the payload.
 /// It takes all of the same optional params as expectAsync.
-void expectDispatched<T>(
-  ActionDispatcher<T> actionDispatcher, {
-  void Function(Action<T> action)? verifier,
+void expectDispatched<T, R extends Object?>(
+  ActionDispatcher<T, R> actionDispatcher, {
+  void Function(Action<T, R> action)? verifier,
   int count = 1,
   int max = 0,
   String? id,
   String? reason,
 }) {
-  actionDispatcher.setDispatcher(expectAsync1((Action<dynamic> action) {
-    if (verifier != null) verifier(action as Action<T>);
+  actionDispatcher.setDispatcher(expectAsync1((Action<dynamic, dynamic> action) {
+    if (verifier != null) verifier(action as Action<T, R>);
   }, count: count, max: max, id: id, reason: reason));
 }

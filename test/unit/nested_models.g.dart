@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of nested_models;
+part of 'nested_models.dart';
 
 // **************************************************************************
 // BuiltReduxGenerator
@@ -14,7 +14,7 @@ class _$BaseActions extends BaseActions {
   factory _$BaseActions() => _$BaseActions._();
   _$BaseActions._() : super._();
 
-  final baseAction = ActionDispatcher<Null>('BaseActions-baseAction');
+  final baseAction = ActionDispatcher<Null, Null>('BaseActions-baseAction');
 
   final child = ChildActions();
 
@@ -27,14 +27,14 @@ class _$BaseActions extends BaseActions {
 }
 
 class BaseActionsNames {
-  static final baseAction = ActionName<Null>('BaseActions-baseAction');
+  static final baseAction = ActionName<Null, Null>('BaseActions-baseAction');
 }
 
 class _$ChildActions extends ChildActions {
   factory _$ChildActions() => _$ChildActions._();
   _$ChildActions._() : super._();
 
-  final childAction = ActionDispatcher<Null>('ChildActions-childAction');
+  final childAction = ActionDispatcher<Null, Null>('ChildActions-childAction');
 
   final grandchild = GrandchildActions();
 
@@ -47,7 +47,7 @@ class _$ChildActions extends ChildActions {
 }
 
 class ChildActionsNames {
-  static final childAction = ActionName<Null>('ChildActions-childAction');
+  static final childAction = ActionName<Null, Null>('ChildActions-childAction');
 }
 
 class _$GrandchildActions extends GrandchildActions {
@@ -55,7 +55,7 @@ class _$GrandchildActions extends GrandchildActions {
   _$GrandchildActions._() : super._();
 
   final grandchildAction =
-      ActionDispatcher<Null>('GrandchildActions-grandchildAction');
+      ActionDispatcher<Null, Null>('GrandchildActions-grandchildAction');
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
@@ -65,7 +65,7 @@ class _$GrandchildActions extends GrandchildActions {
 
 class GrandchildActionsNames {
   static final grandchildAction =
-      ActionName<Null>('GrandchildActions-grandchildAction');
+      ActionName<Null, Null>('GrandchildActions-grandchildAction');
 }
 
 // **************************************************************************
@@ -79,11 +79,11 @@ class _$Base extends Base {
   final Child child;
 
   factory _$Base([void Function(BaseBuilder)? updates]) =>
-      (new BaseBuilder()..update(updates)).build();
+      (new BaseBuilder()..update(updates))._build();
 
   _$Base._({required this.count, required this.child}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(count, 'Base', 'count');
-    BuiltValueNullFieldError.checkNotNull(child, 'Base', 'child');
+    BuiltValueNullFieldError.checkNotNull(count, r'Base', 'count');
+    BuiltValueNullFieldError.checkNotNull(child, r'Base', 'child');
   }
 
   @override
@@ -101,12 +101,16 @@ class _$Base extends Base {
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, count.hashCode), child.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, count.hashCode);
+    _$hash = $jc(_$hash, child.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Base')
+    return (newBuiltValueToStringHelper(r'Base')
           ..add('count', count)
           ..add('child', child))
         .toString();
@@ -148,13 +152,15 @@ class BaseBuilder implements Builder<Base, BaseBuilder> {
   }
 
   @override
-  _$Base build() {
+  Base build() => _build();
+
+  _$Base _build() {
     _$Base _$result;
     try {
       _$result = _$v ??
           new _$Base._(
-              count:
-                  BuiltValueNullFieldError.checkNotNull(count, 'Base', 'count'),
+              count: BuiltValueNullFieldError.checkNotNull(
+                  count, r'Base', 'count'),
               child: child.build());
     } catch (_) {
       late String _$failedField;
@@ -163,7 +169,7 @@ class BaseBuilder implements Builder<Base, BaseBuilder> {
         child.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'Base', _$failedField, e.toString());
+            r'Base', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -179,11 +185,11 @@ class _$Child extends Child {
   final Grandchild grandchild;
 
   factory _$Child([void Function(ChildBuilder)? updates]) =>
-      (new ChildBuilder()..update(updates)).build();
+      (new ChildBuilder()..update(updates))._build();
 
   _$Child._({required this.count, required this.grandchild}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(count, 'Child', 'count');
-    BuiltValueNullFieldError.checkNotNull(grandchild, 'Child', 'grandchild');
+    BuiltValueNullFieldError.checkNotNull(count, r'Child', 'count');
+    BuiltValueNullFieldError.checkNotNull(grandchild, r'Child', 'grandchild');
   }
 
   @override
@@ -203,12 +209,16 @@ class _$Child extends Child {
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, count.hashCode), grandchild.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, count.hashCode);
+    _$hash = $jc(_$hash, grandchild.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Child')
+    return (newBuiltValueToStringHelper(r'Child')
           ..add('count', count)
           ..add('grandchild', grandchild))
         .toString();
@@ -252,13 +262,15 @@ class ChildBuilder implements Builder<Child, ChildBuilder> {
   }
 
   @override
-  _$Child build() {
+  Child build() => _build();
+
+  _$Child _build() {
     _$Child _$result;
     try {
       _$result = _$v ??
           new _$Child._(
               count: BuiltValueNullFieldError.checkNotNull(
-                  count, 'Child', 'count'),
+                  count, r'Child', 'count'),
               grandchild: grandchild.build());
     } catch (_) {
       late String _$failedField;
@@ -267,7 +279,7 @@ class ChildBuilder implements Builder<Child, ChildBuilder> {
         grandchild.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'Child', _$failedField, e.toString());
+            r'Child', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -281,10 +293,10 @@ class _$Grandchild extends Grandchild {
   final int count;
 
   factory _$Grandchild([void Function(GrandchildBuilder)? updates]) =>
-      (new GrandchildBuilder()..update(updates)).build();
+      (new GrandchildBuilder()..update(updates))._build();
 
   _$Grandchild._({required this.count}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(count, 'Grandchild', 'count');
+    BuiltValueNullFieldError.checkNotNull(count, r'Grandchild', 'count');
   }
 
   @override
@@ -302,12 +314,15 @@ class _$Grandchild extends Grandchild {
 
   @override
   int get hashCode {
-    return $jf($jc(0, count.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, count.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Grandchild')..add('count', count))
+    return (newBuiltValueToStringHelper(r'Grandchild')..add('count', count))
         .toString();
   }
 }
@@ -342,14 +357,16 @@ class GrandchildBuilder implements Builder<Grandchild, GrandchildBuilder> {
   }
 
   @override
-  _$Grandchild build() {
+  Grandchild build() => _build();
+
+  _$Grandchild _build() {
     final _$result = _$v ??
         new _$Grandchild._(
             count: BuiltValueNullFieldError.checkNotNull(
-                count, 'Grandchild', 'count'));
+                count, r'Grandchild', 'count'));
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

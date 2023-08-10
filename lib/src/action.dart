@@ -1,21 +1,25 @@
+import 'dart:async';
+
 /// [Action] is the object passed to your reducer to signify the state change that needs to take place.
 /// Action [name]s should always be unique. Uniqeness is guarenteed when using ReduxActions.
-class Action<Payload> {
+class Action<Payload, Result extends Object?> {
   /// A unique action name.
   final String name;
 
   /// The actions payload.
   final Payload payload;
 
+  final Completer<Result>? completer;
+
   // factory Action(name, payload) => NullableAction(name, payload);
-  Action(this.name, this.payload);
+  Action(this.name, this.payload, [this.completer]);
 
   @override
   String toString() => 'Action {\n  name: $name,\n  payload: $payload,\n}';
 }
 
 // Dispatches an action to the store
-typedef Dispatcher<P> = void Function(Action<P> action);
+typedef Dispatcher<P, R extends Object?> = void Function(Action<P, R> action);
 
 /// [ActionDispatcher] dispatches an action with the name provided
 /// to the constructor and the payload supplied when called. You will notice
@@ -26,13 +30,13 @@ typedef Dispatcher<P> = void Function(Action<P> action);
 /// ```dart
 /// store.actions.increment(3);
 /// ```
-class ActionDispatcher<P> {
+class ActionDispatcher<P, R extends Object?> {
   late Dispatcher _dispatcher;
   final String _name;
 
   String get name => _name;
 
-  void call(P payload) => _dispatcher(Action<P>(_name, payload));
+  void call(P payload, {Completer<R>? completer}) => _dispatcher(Action<P, R>(_name, payload, completer));
 
   ActionDispatcher(this._name);
 
@@ -113,7 +117,7 @@ abstract class ReduxActions {
 /// [ActionName] is an object that simply contains the action name but is typed with a generic that
 /// is the same as the relative [ActionDispatcher]s payload generic. This allows you to declare reducer
 /// handlers with safety without having to instantiate your instance of [ReduxActions].
-class ActionName<T> {
+class ActionName<T, R> {
   String name;
   ActionName(this.name);
 }

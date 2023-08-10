@@ -13,8 +13,8 @@ abstract class CounterActions extends ReduxActions {
   CounterActions._();
   factory CounterActions() => _$CounterActions();
 
-  ActionDispatcher<int> get increment;
-  ActionDispatcher<int> get incrementOther;
+  ActionDispatcher<int, Null> get increment;
+  ActionDispatcher<int, Null> get incrementOther;
   SubCounterActions get subCounterActions;
   MiddlewareActions get middlewareActions;
 }
@@ -23,19 +23,19 @@ abstract class SubCounterActions extends ReduxActions {
   SubCounterActions._();
   factory SubCounterActions() => _$SubCounterActions();
 
-  ActionDispatcher<int> get increment;
-  ActionDispatcher<int> get doubleIt;
+  ActionDispatcher<int, Null> get increment;
+  ActionDispatcher<int, Null> get doubleIt;
 }
 
-void _increment(Counter state, Action<int> action, CounterBuilder builder) =>
+void _increment(Counter state, Action<int, Null> action, CounterBuilder builder) =>
     builder.count = state.count + action.payload;
 
 void _incrementOther(
-        Counter state, Action<int> action, CounterBuilder builder) =>
+        Counter state, Action<int, Null> action, CounterBuilder builder) =>
     builder.otherCount = state.otherCount + action.payload;
 
 void _incrementSubCount(
-        Counter state, Action<int> action, CounterBuilder builder) =>
+        Counter state, Action<int, Null> action, CounterBuilder builder) =>
     builder.subCounter.subCount = state.subCounter.subCount + action.payload;
 
 final reducer = (ReducerBuilder<Counter, CounterBuilder>()
@@ -72,8 +72,8 @@ abstract class SubCounter implements Built<SubCounter, SubCounterBuilder> {
 // Middleware
 
 abstract class MiddlewareActions extends ReduxActions {
-  ActionDispatcher<int> get doubleIt;
-  ActionDispatcher<int> get tripleIt;
+  ActionDispatcher<int, Null> get doubleIt;
+  ActionDispatcher<int, Null> get tripleIt;
 
   MiddlewareActions._();
   factory MiddlewareActions() => _$MiddlewareActions();
@@ -87,7 +87,7 @@ var counterMiddleware =
         .build();
 
 void _doubleIt(MiddlewareApi<Counter, CounterBuilder, CounterActions> api,
-    ActionHandler next, Action<int> action) {
+    ActionHandler next, Action<int, Null> action) {
   api.actions.increment(api.state.count * 2);
   next(action);
 }
@@ -97,7 +97,7 @@ var tripleItMiddlewareBuilder =
       ..add(MiddlewareActionsNames.tripleIt, _tripleIt);
 
 void _tripleIt(MiddlewareApi<Counter, CounterBuilder, CounterActions> api,
-    ActionHandler next, Action<int> action) {
+    ActionHandler next, Action<int, Null> action) {
   api.actions.increment(api.state.count * 3);
   next(action);
 }
@@ -118,7 +118,7 @@ var subCountMiddlewareBuilder =
 void _subCounterDoubleIt(
     MiddlewareApi<SubCounter, SubCounterBuilder, SubCounterActions> api,
     ActionHandler next,
-    Action<int> action) {
+    Action<int, Null> action) {
   api.actions.increment(api.state.subCount * 2);
   next(action);
 }
