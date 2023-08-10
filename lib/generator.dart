@@ -79,7 +79,7 @@ String _getGenerics(String source, int nameOffset) {
     trimAfterName.substring(trimAfterName.lastIndexOf('EmptyActionDispatcher'));
     return emptyTrimBeforeActionDispatcher.substring(
         emptyTrimBeforeActionDispatcher.indexOf('<') + 1,
-        emptyTrimBeforeActionDispatcher.lastIndexOf('>'));
+        emptyTrimBeforeActionDispatcher.lastIndexOf('>')) + ',void';
   }
 
   final trimBeforeActionDispatcher =
