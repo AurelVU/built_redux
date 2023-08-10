@@ -38,7 +38,10 @@ class ActionDispatcher<P, R> {
 
   String get name => _name;
 
-  void call(P payload, {Completer<R>? completer}) => _dispatcher(Action<P, R>(_name, payload, completer));
+  Completer<R> call(P payload, {Completer<R>? completer}) {
+    _dispatcher(Action<P, R>(_name, payload, completer));
+    return completer ?? Completer<R>();
+  }
 
   ActionDispatcher(this._name);
 
