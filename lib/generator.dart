@@ -94,7 +94,9 @@ bool _isReduxActions(Element? element) =>
 
 bool _isActionDispatcher(FieldElement element) => element.type
     .getDisplayString(withNullability: true)
-    .startsWith('ActionDispatcher<');
+    .startsWith('ActionDispatcher<') || element.type
+    .getDisplayString(withNullability: true)
+    .startsWith('EmptyActionDispatcher<');
 
 bool _hasSuperType(InterfaceElement InterfaceElement, String type) =>
     InterfaceElement.allSupertypes
