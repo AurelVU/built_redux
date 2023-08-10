@@ -54,7 +54,7 @@ Iterable<ActionsClass> _actionsClassFromInheritedElements(
 
 Action _fieldElementToAction(InterfaceElement element, FieldElement field) =>
     Action('${element.name}-${field.name}', field.name,
-        _fieldType(element, field));
+        _fieldType(element, field), _fieldType(element, field));
 
 // hack to return the generics for the action
 // this is used so action whose payloads are of generated types
@@ -73,6 +73,15 @@ String _syntheticFieldType(InterfaceElement element, FieldElement field) {
 
 String _getGenerics(String source, int nameOffset) {
   final trimAfterName = source.substring(0, nameOffset);
+
+  if (trimAfterName.lastIndexOf('EmptyActionDispatcher') != -1) {
+    final emptyTrimBeforeActionDispatcher =
+    trimAfterName.substring(trimAfterName.lastIndexOf('EmptyActionDispatcher'));
+    return emptyTrimBeforeActionDispatcher.substring(
+        emptyTrimBeforeActionDispatcher.indexOf('<') + 1,
+        emptyTrimBeforeActionDispatcher.lastIndexOf('>'));
+  }
+
   final trimBeforeActionDispatcher =
       trimAfterName.substring(trimAfterName.lastIndexOf('ActionDispatcher'));
   return trimBeforeActionDispatcher.substring(
@@ -201,7 +210,8 @@ class Action {
   final String actionName;
   final String fieldName;
   final String type;
-  Action(this.actionName, this.fieldName, this.type);
+  final String returnType;
+  Action(this.actionName, this.fieldName, this.type, this.returnType);
 
   @override
   bool operator ==(Object other) {
