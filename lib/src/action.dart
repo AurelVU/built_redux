@@ -38,10 +38,10 @@ class ActionDispatcher<P, R> {
 
   String get name => _name;
 
-  Completer<R> call(P payload, {Completer<R>? completer}) {
+  Future<R> call(P payload, {Completer<R>? completer}) {
     final workedCompleter = completer ?? Completer<R>();
     _dispatcher(Action<P, R>(_name, payload, workedCompleter));
-    return workedCompleter;
+    return workedCompleter.future;
   }
 
   ActionDispatcher(this._name);
