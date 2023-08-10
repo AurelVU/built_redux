@@ -7,7 +7,7 @@ import 'store.dart';
 
 /// [StoreChange] is the payload for the [Store] subscription
 class StoreChange<State extends Built<State, StateBuilder>,
-    StateBuilder extends Builder<State, StateBuilder>, P, R extends Object?> {
+    StateBuilder extends Builder<State, StateBuilder>, P, R> {
   final State next;
   final State prev;
   final Action<P, R> action;
@@ -19,7 +19,7 @@ class StoreChange<State extends Built<State, StateBuilder>,
 }
 
 /// [StoreChangeHandler] handles a change the store after an action of type Action<T, R>
-typedef StoreChangeHandler<P, R extends Object?, State extends Built<State, StateBuilder>,
+typedef StoreChangeHandler<P, R, State extends Built<State, StateBuilder>,
         StateBuilder extends Builder<State, StateBuilder>>
     = void Function(
   StoreChange<State, StateBuilder, P, R> storeChange,
@@ -38,7 +38,7 @@ class StoreChangeHandlerBuilder<
       _subscription;
 
   /// Registers [handler] function to the given [actionName]
-  void add<Payload, Result extends Object?>(ActionName<Payload, Result> actionName,
+  void add<Payload, Result>(ActionName<Payload, Result> actionName,
       StoreChangeHandler<Payload, Result, State, StateBuilder> handler) {
     _map[actionName.name] = (change) {
       handler(StoreChange<State, StateBuilder, Payload, Result>(

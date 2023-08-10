@@ -36,7 +36,7 @@ class MiddlewareBuilder<
   var _map =
       Map<String, MiddlewareHandler<State, StateBuilder, Actions, dynamic, dynamic>>();
 
-  void add<Payload, Result extends Object?>(ActionName<Payload, Result> aMgr,
+  void add<Payload, Result>(ActionName<Payload, Result> aMgr,
       MiddlewareHandler<State, StateBuilder, Actions, Payload, Result> handler) {
     _map[aMgr.name] = (api, next, action) {
       handler(api, next, action as Action<Payload, Result>);
@@ -89,7 +89,7 @@ class NestedMiddlewareBuilder<
 
   NestedMiddlewareBuilder(this._stateMapper, this._actionsMapper);
 
-  void add<Payload, Result extends Object?>(
+  void add<Payload, Result>(
       ActionName<Payload, Result> aMgr,
       MiddlewareHandler<NestedState, NestedStateBuilder, NestedActions, Payload, Result>
           handler) {
@@ -127,6 +127,6 @@ typedef MiddlewareHandler<
         State extends Built<State, StateBuilder>,
         StateBuilder extends Builder<State, StateBuilder>,
         Actions extends ReduxActions,
-        Payload, Result extends Object?>
+        Payload, Result>
     = void Function(MiddlewareApi<State, StateBuilder, Actions> api,
         ActionHandler next, Action<Payload, Result> action);
